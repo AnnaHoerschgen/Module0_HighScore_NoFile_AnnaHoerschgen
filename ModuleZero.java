@@ -2,20 +2,17 @@
  * Name: Anna Hoerschgen
  * Date: January 16th, 2025
  * Filename: Main.java
- * Assignment: Module 0 - High Scores from a File
+ * Assignment: Module 0 - High Scores
  */
 
 // Imports
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.Arrays;
 
 public class ModuleZero {
     public static void main(String[] args) {
-        // part 1 - load all the players into a list
-        String currentPath = System.getProperty("user.dir"); // file path
-        Player[] playerList = readPlayersFile(currentPath); // put all the players into a list
+        // part 1 - Create a list of default players
+        Player[] playerList = new Player [11];
+        playerList = createPlayers(playerList);
 
         // part 2 - Display all 10 high scores
         printPlayers(playerList);
@@ -36,33 +33,20 @@ public class ModuleZero {
         printPlayers(Arrays.copyOf(playerList, 10)); // Only display the top 10
     }
 
-    // readPlayersFile method - reads a file named "Players.csv" at the given filepath
-    public static Player[] readPlayersFile(String filepath) {
-        BufferedReader br = null;
-        try {
-            Player[] players = new Player[11]; // Initialize the array for 11 players
+    // method that creates the players
+    public static Player[] createPlayers(Player[] players) {
+        String[] names = {"AAA", "BBB", "CCC", "DDD", "EEE", "FFF", "GGG", "HHH", "III", "JJJ"};
+        int[] scores = {742, 698, 735, 620, 780, 512, 770, 695, 745, 728};
 
-            br = new BufferedReader(new FileReader(filepath + "/Players.csv"));
-            String line;
-
-            int playerIndex = 0;
-            while ((line = br.readLine()) != null && playerIndex < players.length) {
-                // Initialize each Player object before using it
-                players[playerIndex] = new Player();
-
-                // Parse the line
-                String[] values = line.split(",");
-                players[playerIndex].setPlayerName(values[0]);
-                players[playerIndex].setHighScore(Integer.parseInt(values[1]));
-                playerIndex++;
-            }
-            br.close();
-            return players;
-
-        } catch (IOException e) {
-            System.out.println("An error happened while reading the file!");
-            return new Player[1]; // Return a single empty player for safety
+        for (int i = 0; i < names.length; i++) {
+            // Initialize each Player object before using it
+            players[i] = new Player();
+            
+            // set the values
+            players[i].setPlayerName(names[i]);
+            players[i].setHighScore(scores[i]);
         }
+        return players;
     }
 
     // printPlayers method
@@ -113,7 +97,7 @@ public class ModuleZero {
 
 // Player class
 class Player {
-    private String name;
+    private String name = "";
     private int highScore = 0;
 
     public int getHighScore() {
